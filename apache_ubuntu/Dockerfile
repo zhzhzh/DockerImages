@@ -1,18 +1,20 @@
 FROM sshd:dockerfile
 
-MAINTAINER zhzhzh (zhzhzh@docker.com) 
+LABEL maintainer="zhzhzh@docker.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -yq install apache2 && \
+RUN apt-get update && \
+    apt-get -yq install apache2 && \
+    apt-get -yq install tzdata && \
     rm -rf /var/lib/apt/lists/*
 
 # RUN echo "Asia/Shanghai" > /etc/timezone && \
 #         dpkg-reconfigure -f noninteractive tzdata 
 
-ADD run.sh /run.sh 
+ADD run.sh /run.sh
 RUN chmod 755 /*.sh
-RUN mkdir -p /var/lock/apache2 && mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
+RUN mkdir -p /var/lock/apache2 && mkdir -p /var/run/apache2 && mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 COPY sample/ /app 
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
