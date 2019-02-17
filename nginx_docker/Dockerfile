@@ -2,7 +2,7 @@ FROM sshd:dockerfile
 LABEL maintainer="zhzhzh@docker.com"
 
 # 安装nginx，设置nginx以非daemon方式启动。
-RUN apt-get udpate && \
+RUN apt-get update && \
     apt-get install -y nginx && \
     apt-get -yq install tzdata && \
     rm -rf /var/lib/apt/lists/* && \
